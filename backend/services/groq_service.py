@@ -8,10 +8,14 @@ load_dotenv()
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
 
-client = Groq(api_key=GROQ_API_KEY)
-
 def extract_report(transcript: str) -> dict:
     """Extract structured job report from transcript using Groq."""
+    if not GROQ_API_KEY:
+        print("Groq Error: GROQ_API_KEY is missing")
+        return None
+        
+    client = Groq(api_key=GROQ_API_KEY)
+
     
     system_prompt = """You are an expert medical transcriptionist and clinical coder. 
 
