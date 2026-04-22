@@ -1,0 +1,189 @@
+# 📄 Product Requirements Document (PRD)
+
+## Product Name
+
+**Health Job Assistant (Medical Voice-to-Report System)**
+
+---
+
+## 1. Background & Problem Statement
+
+Medical professionals (doctors, nurses, and caregivers) often spend significant time documenting patient encounters after consultations. Manual documentation lead to:
+
+* Physician burnout due to excessive paperwork
+* Delayed or incomplete patient charts
+* Potential for missing critical medical details
+* Inconsistent reporting formats across departments
+
+Managers and administrators require **clear, structured, and clinically accurate reports** for billing, compliance, and continuity of care.
+
+---
+
+## 2. Product Vision
+
+Enable healthcare professionals to **record a short patient summary** via a mobile-friendly web app and automatically convert it into a **structured medical report** using AI.
+
+---
+
+## 3. Goals & Objectives
+
+### Primary Goals
+
+* Reduce documentation time for medical professionals
+* Convert medical voice notes into structured reports (SOAP-lite format)
+* Ensure clinical consistency and data structure
+
+### Success Metrics
+
+* ≥ 95% medical terminology transcription accuracy
+* ≤ 5 seconds end-to-end processing time
+* 100% valid clinical JSON responses
+
+---
+
+## 4. Target Users
+
+### Primary Users
+
+* Doctors, Nurses, and Medical Assistants
+
+### Secondary Users
+
+* Hospital Administrators and Billing Specialists
+
+---
+
+## 5. User Story
+
+> *“I am a busy doctor seeing 30 patients a day. I don't have time to type long notes. I need a secure, mobile-friendly interface where I can speak naturally about a patient encounter, and the system automatically extracts symptoms, diagnosis, and plans into a structured format.”*
+
+---
+
+## 6. In-Scope Features
+
+### 6.1 Audio Ingestion (Frontend)
+
+* Record clinical notes directly from a mobile browser
+* Upload audio files
+* Supported formats: `.wav`, `.mp3`, `.m4a`
+
+### 6.2 Speech-to-Text (STT)
+
+* Transcription handled by **Deepgram API**
+* Supports medical terminology and various accents
+* Smart formatting and clinical punctuation
+
+### 6.3 LLM-Based Clinical Extraction
+
+* Backend uses **Groq-hosted LLaMA models**
+* Converts raw transcript into structured clinical data
+* Identifies symptoms, potential diagnoses, and treatment plans
+
+### 6.4 Structured Medical Report Output
+
+The system must extract and return the following fields:
+
+* **Patient Name**
+* **Symptoms** (array)
+* **Diagnosis/Assessment**
+* **Treatment Plan**
+* **Urgency/Sentiment** (Inferred)
+
+---
+
+## 7. Out of Scope (Phase 1)
+
+* Full HIPAA-compliant storage (Phase 1 focus is MVP)
+* Integration with major EMRs (Epic/Cerner)
+* Prescription management
+
+---
+
+## 8. Functional Requirements
+
+### FR-1: Audio Submission
+
+Allow clinicians to record/upload audio notes.
+
+### FR-2: Transcription
+
+Transcribe clinical audio using Deepgram.
+
+### FR-4: Structured Extraction
+
+Extract medical entities using Groq-powered LLM.
+
+### FR-5: Clinical Response
+
+Return a validated medical JSON report.
+
+---
+
+## 10. System Architecture
+
+```
+Frontend (Next.js – Health UI)
+  └── Voice Recording
+        |
+        v
+Backend (Python – FastAPI)
+  ├── Deepgram STT (Medical Speech → Text)
+  ├── Groq LLM (Clinical Text → Structured JSON)
+  ├── Clinical Schema Validation
+  └── API Response
+        |
+        v
+Structured Medical Report (JSON)
+```
+
+---
+
+## 11. Technology Stack
+
+### Frontend
+
+* **Next.js (React)** 
+* Medical-themed UI
+* Web MediaRecorder API
+
+### Backend
+
+* **Python (FastAPI)**
+
+### AI Services
+
+* **Speech-to-Text:** Deepgram
+* **LLM:** Groq (LLaMA 3.x)
+
+---
+
+## 12. Test Data (Provided)
+
+**Simulated Voice Transcript:**
+
+"Saw Mr. Khan today. He's reporting a persistent cough for 4 days and a mild fever of 100.5. Physical exam shows clear lungs but a red throat. Assessment is likely viral upper respiratory infection. Plan is to start over-the-counter cough syrup and Paracetamol. Follow up if symptoms worsen."
+
+---
+
+## 13. Expected Output Example
+
+```json
+{
+  "patientName": "Mr. Khan",
+  "symptoms": [
+    "persistent cough",
+    "mild fever (100.5)",
+    "red throat"
+  ],
+  "diagnosis": "Viral upper respiratory infection",
+  "treatmentPlan": "OTC cough syrup, Paracetamol, follow up if worsening",
+  "urgency": "Standard"
+}
+```
+
+---
+
+## 16. One-Line Product Summary
+
+> *A medical-first AI assistant that converts unstructured clinician speech into structured medical summaries using Deepgram and Groq.*
+able job reports using Deepgram and Groq-powered LLMs.*
