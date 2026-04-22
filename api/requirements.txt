@@ -4,5 +4,5 @@ python-dotenv
 deepgram-sdk
 groq
 pydantic
-python-multipart
+python-multipart==0.0.9
 requests
