@@ -1,3 +1,8 @@
+import sys
+import os
+# Add the current directory to sys.path to find local modules on Vercel
+sys.path.append(os.path.dirname(__file__))
+
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from services.stt import transcribe_audio
@@ -13,6 +18,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/api/test")
+async def test():
+    return {"status": "ok", "message": "Backend is reachable"}
 
 @app.post("/api/process-audio")
 async def process_audio(file: UploadFile = File(...)):
