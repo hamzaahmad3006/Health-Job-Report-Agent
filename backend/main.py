@@ -49,6 +49,9 @@ async def process_audio(file: UploadFile = File(...)):
             "report": report
         }
     except Exception as e:
+        import traceback
+        print(f"ERROR: {str(e)}")
+        print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
