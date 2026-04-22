@@ -4,11 +4,26 @@ import { useState } from "react";
 import AudioRecorder from "@/components/AudioRecorder";
 import ReportDisplay from "@/components/ReportDisplay";
 
+interface ReportData {
+  transcript: string;
+  report: {
+    patientName: string;
+    location: string;
+    clinicalObservation: string;
+    treatmentProvided: string[];
+    medicalSuppliesUsed: string[];
+    patientSentiment: string;
+    nextActionRequired: string;
+    technicianStatus: string;
+    urgency: "Routine" | "Urgent" | "Emergency";
+  };
+}
+
 export default function Home() {
-  const [reportData, setReportData] = useState<any>(null);
+  const [reportData, setReportData] = useState<ReportData | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const handleAudioProcessed = (data: any) => {
+  const handleAudioProcessed = (data: ReportData | null) => {
     setReportData(data);
     setIsProcessing(false);
   };

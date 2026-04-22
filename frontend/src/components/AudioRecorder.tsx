@@ -3,8 +3,23 @@
 import { useState, useRef, useEffect } from "react";
 import { FaMicrophone, FaStop, FaUpload } from "react-icons/fa6";
 
+interface ReportData {
+    transcript: string;
+    report: {
+        patientName: string;
+        location: string;
+        clinicalObservation: string;
+        treatmentProvided: string[];
+        medicalSuppliesUsed: string[];
+        patientSentiment: string;
+        nextActionRequired: string;
+        technicianStatus: string;
+        urgency: "Routine" | "Urgent" | "Emergency";
+    };
+}
+
 interface AudioRecorderProps {
-    onProcessed: (data: any) => void;
+    onProcessed: (data: ReportData | null) => void;
     onProcessingStart: () => void;
 }
 
@@ -81,9 +96,10 @@ export default function AudioRecorder({ onProcessed, onProcessingStart }: AudioR
 
             const data = await response.json();
             onProcessed(data);
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error("Upload error:", err);
-            alert(`Error: ${err.message}. Please check your connection and backend configuration.`);
+            const errorMessage = err instanceof Error ? err.message : "An unknown error occurred";
+            alert(`Error: ${errorMessage}. Please check your connection and backend configuration.`);
             onProcessingStart(); // Reset loading state
             onProcessed(null);
         }
